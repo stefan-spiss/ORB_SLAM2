@@ -70,6 +70,10 @@ src/Initializer.cc
 src/Viewer.cc
 )
 
+execute_process(
+  COMMAND /bin/sh ${PROJECT_SOURCE_DIR}/build_dep.sh ${PROJECT_SOURCE_DIR}
+)
+
 target_link_libraries(${PROJECT_NAME}
 ${OpenCV_LIBS}
 ${EIGEN3_LIBS}
