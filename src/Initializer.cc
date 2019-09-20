@@ -27,7 +27,7 @@
 #include <memory>
 #include <type_traits>
 
-#include "Thirdparty/DBoW2/DUtils/Random.h"
+#include <DUtils/Random.h>
 #include "Frame.h"
 
 #include<thread>

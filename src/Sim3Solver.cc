@@ -30,7 +30,7 @@
 #include <memory>
 
 #include "KeyFrame.h"
-#include "Thirdparty/DBoW2/DUtils/Random.h"
+#include <DUtils/Random.h>
 #include "MapPoint.h"
 
 namespace ORB_SLAM2

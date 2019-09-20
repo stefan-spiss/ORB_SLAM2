@@ -28,7 +28,7 @@
 #include <utility>
 
 #include "KeyFrame.h"
-#include "Thirdparty/DBoW2/DBoW2/BowVector.h"
+#include <DBoW2/BowVector.h>
 #include "Frame.h"
 
 #include<mutex>
