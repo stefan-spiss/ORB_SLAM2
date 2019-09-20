@@ -39,9 +39,9 @@ endif()
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
 
-add_subdirectory(Thirdparty/DBoW2)
-add_subdirectory(Thirdparty/g2o)
-# add_subdirectory(Thirdparty/Pangolin)
+add_subdirectory(subprojects/DBoW2)
+add_subdirectory(subprojects/g2o)
+# add_subdirectory(subprojects/Pangolin)
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
@@ -81,8 +81,8 @@ pangolin
 DBoW2
 g2o
 ${Pangolin_LIBRARIES}
-# ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
-# ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+# ${PROJECT_SOURCE_DIR}/subprojects/DBoW2/lib/libDBoW2.so
+# ${PROJECT_SOURCE_DIR}/subprojects/g2o/lib/libg2o.so
 )
 
 # Build examples
