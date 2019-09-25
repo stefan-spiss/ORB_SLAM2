@@ -173,7 +173,7 @@ ADD_LIBRARY(g2o ${G2O_LIB_TYPE}
     )
 
 # Set up the top-level include directories
-TARGET_INCLUDE_DIRECTORIES(g2o SYSTEM
+TARGET_INCLUDE_DIRECTORIES(g2o
     PUBLIC ${g2o_SOURCE_DIR}/core
     PUBLIC ${g2o_SOURCE_DIR}/types
     PUBLIC ${g2o_SOURCE_DIR}/stuff

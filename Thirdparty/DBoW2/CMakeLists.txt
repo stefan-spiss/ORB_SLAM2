@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(DBoW2)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall  -O3 -march=native ")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall  -O3 -march=native")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -march=native ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native")
 
 set(HDRS_DBOW2
     DBoW2/BowVector.h
@@ -36,9 +36,9 @@ endif()
 
 # include_directories(${OpenCV_INCLUDE_DIRS})
 add_library(DBoW2 SHARED ${SRCS_DBOW2} ${SRCS_DUTILS})
-target_include_directories(DBoW2 SYSTEM
+target_include_directories(DBoW2
     PUBLIC ${CMAKE_CURRENT_LIST_DIR}
-    PUBLIC ${OPENCV_INCLUDE_DIRS}
+    # PUBLIC ${OPENCV_INCLUDE_DIRS}
     )
 target_link_libraries(DBoW2
     PUBLIC ${OpenCV_LIBS}

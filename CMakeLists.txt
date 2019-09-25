@@ -38,11 +38,11 @@ endif()
 
 # find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
-# find_package(Pangolin REQUIRED)
+find_package(Pangolin REQUIRED)
 
 add_subdirectory(Thirdparty/DBoW2)
 add_subdirectory(Thirdparty/g2o)
-add_subdirectory(Thirdparty/Pangolin)
+# add_subdirectory(Thirdparty/Pangolin)
 
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
@@ -68,54 +68,52 @@ add_library(${PROJECT_NAME} SHARED
     src/Viewer.cc
     )
 
-target_include_directories(${PROJECT_NAME} SYSTEM
+target_include_directories(${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
-    # PUBLIC ${EIGEN3_INCLUDE_DIR}
-    # ${Pangolin_INCLUDE_DIRS}
+    PUBLIC ${Pangolin_INCLUDE_DIRS}
     )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC ${OpenCV_LIBS}
     PUBLIC Eigen3::Eigen
-    PUBLIC pangolin
+    PUBLIC ${Pangolin_LIBRARIES}
+    # PUBLIC pangolin
     PUBLIC DBoW2
     PUBLIC g2o
-    # ${Pangolin_LIBRARIES}
-    # ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
-    # ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
     )
 
 # Build examples
+set(BUILD_EXAMPLES OFF CACHE BOOL "Build ORB SLAM2 examples.")
+IF(BUILD_EXAMPLES)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/RGB-D)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/RGB-D)
+    add_executable(rgbd_tum
+        Examples/RGB-D/rgbd_tum.cc)
+    target_link_libraries(rgbd_tum ${PROJECT_NAME})
 
-add_executable(rgbd_tum
-    Examples/RGB-D/rgbd_tum.cc)
-target_link_libraries(rgbd_tum ${PROJECT_NAME})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Stereo)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Stereo)
+    add_executable(stereo_kitti
+        Examples/Stereo/stereo_kitti.cc)
+    target_link_libraries(stereo_kitti ${PROJECT_NAME})
 
-add_executable(stereo_kitti
-    Examples/Stereo/stereo_kitti.cc)
-target_link_libraries(stereo_kitti ${PROJECT_NAME})
+    add_executable(stereo_euroc
+        Examples/Stereo/stereo_euroc.cc)
+    target_link_libraries(stereo_euroc ${PROJECT_NAME})
 
-add_executable(stereo_euroc
-    Examples/Stereo/stereo_euroc.cc)
-target_link_libraries(stereo_euroc ${PROJECT_NAME})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular)
 
+    add_executable(mono_tum
+        Examples/Monocular/mono_tum.cc)
+    target_link_libraries(mono_tum ${PROJECT_NAME})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular)
+    add_executable(mono_kitti
+        Examples/Monocular/mono_kitti.cc)
+    target_link_libraries(mono_kitti ${PROJECT_NAME})
 
-add_executable(mono_tum
-    Examples/Monocular/mono_tum.cc)
-target_link_libraries(mono_tum ${PROJECT_NAME})
-
-add_executable(mono_kitti
-    Examples/Monocular/mono_kitti.cc)
-target_link_libraries(mono_kitti ${PROJECT_NAME})
-
-add_executable(mono_euroc
-    Examples/Monocular/mono_euroc.cc)
-target_link_libraries(mono_euroc ${PROJECT_NAME})
+    add_executable(mono_euroc
+        Examples/Monocular/mono_euroc.cc)
+    target_link_libraries(mono_euroc ${PROJECT_NAME})
+ENDIF(BUILD_EXAMPLES)
 
