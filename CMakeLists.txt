@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.9)
 project(ORB_SLAM2)
 
 IF(NOT CMAKE_BUILD_TYPE)
@@ -44,7 +44,7 @@ add_subdirectory(Thirdparty/DBoW2)
 add_subdirectory(Thirdparty/g2o)
 add_subdirectory(Thirdparty/Pangolin)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 add_library(${PROJECT_NAME} SHARED
     src/System.cc
@@ -68,7 +68,7 @@ add_library(${PROJECT_NAME} SHARED
     src/Viewer.cc
     )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${PROJECT_NAME} SYSTEM
     PUBLIC ${PROJECT_SOURCE_DIR}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
     # PUBLIC ${EIGEN3_INCLUDE_DIR}
