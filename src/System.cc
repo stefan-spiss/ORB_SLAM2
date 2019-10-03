@@ -479,6 +479,35 @@ void System::SaveTrajectoryKITTI(const string &filename)
     cout << endl << "trajectory saved!" << endl;
 }
 
+
+void System::getCameraOrigins(std::vector<cv::Mat>& transformatioMatrices) const {
+    vector<KeyFrame*> keyFrames = mpMap->GetAllKeyFrames();
+    sort(keyFrames.begin(), keyFrames.end(), KeyFrame::lId);
+
+    // Two -> transfromation of world coordinate system to origin of first key frame
+    cv::Mat Two = keyFrames[0]->GetPoseInverse();
+    
+    list<ORB_SLAM2::KeyFrame*>::iterator refKFIt = mpTracker->mlpReferences.begin();
+    list<cv::Mat>::iterator relFPIt = mpTracker->mlRelativeFramePoses.begin();
+    for(; relFPIt != mpTracker->mlRelativeFramePoses.end(); relFPIt++, refKFIt++) {
+        // refKF -> reference KeyFrame
+        auto refKF = *refKFIt;
+
+        // Trw -> transform reference -> world
+        cv::Mat Trw = cv::Mat::eye(4, 4, CV_32F);
+
+        while(refKF->isBad()) {
+            Trw = Trw * refKF->mTcp;
+            refKF = refKF->GetParent();
+        }
+
+        Trw = Trw * refKF->GetPose() * Two;
+
+        // Tcw -> transform camera -> world
+        transformatioMatrices.push_back((*relFPIt) * Trw);
+    }
+}
+
 int System::GetTrackingState()
 {
     unique_lock<mutex> lock(mMutexState);

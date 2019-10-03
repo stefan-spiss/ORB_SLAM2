@@ -115,6 +115,10 @@ public:
     // TODO: Save/Load functions
     // SaveMap(const string &filename);
     // LoadMap(const string &filename);
+    
+    // Return vector of all camera points (first point is in origin)
+    void getCameraOrigins(std::vector<cv::Mat>& transformationMatrices) const;
+
 
     // Information from most recent processed frame
     // You can call this right after TrackMonocular (or stereo or RGBD)
