@@ -38,11 +38,11 @@ endif()
 
 # find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
-find_package(Pangolin REQUIRED)
+# find_package(Pangolin REQUIRED)
 
 add_subdirectory(Thirdparty/DBoW2)
 add_subdirectory(Thirdparty/g2o)
-# add_subdirectory(Thirdparty/Pangolin)
+add_subdirectory(Thirdparty/Pangolin)
 
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
@@ -78,7 +78,7 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC ${OpenCV_LIBS}
     PUBLIC Eigen3::Eigen
     PUBLIC ${Pangolin_LIBRARIES}
-    # PUBLIC pangolin
+    PUBLIC pangolin
     PUBLIC DBoW2
     PUBLIC g2o
     )
