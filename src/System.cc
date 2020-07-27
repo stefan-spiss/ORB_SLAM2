@@ -487,11 +487,9 @@ void System::getCameraOrigins(std::vector<cv::Mat>& transformatioMatrices) const
     // Two -> transfromation of world coordinate system to origin of first key frame
     cv::Mat Two = keyFrames[0]->GetPoseInverse();
     
-    list<ORB_SLAM2::KeyFrame*>::iterator refKFIt = mpTracker->mlpReferences.begin();
-    list<cv::Mat>::iterator relFPIt = mpTracker->mlRelativeFramePoses.begin();
-    for(; relFPIt != mpTracker->mlRelativeFramePoses.end(); relFPIt++, refKFIt++) {
+    for (list<Tracking::TrackedFrame>::iterator iter = mpTracker->tracked_frames.begin(), iter_end = mpTracker->tracked_frames.end(); iter != iter_end; iter++) {
         // refKF -> reference KeyFrame
-        auto refKF = *refKFIt;
+        auto refKF = iter->reference_keyframe;
 
         // Trw -> transform reference -> world
         cv::Mat Trw = cv::Mat::eye(4, 4, CV_32F);
@@ -504,7 +502,7 @@ void System::getCameraOrigins(std::vector<cv::Mat>& transformatioMatrices) const
         Trw = Trw * refKF->GetPose() * Two;
 
         // Tcw -> transform camera -> world
-        transformatioMatrices.push_back((*relFPIt) * Trw);
+        transformatioMatrices.push_back((iter->relative_frame_pose) * Trw);
     }
 }
 
